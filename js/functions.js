@@ -8,6 +8,10 @@ function calc(){
     // data[4] = Nombre
     // data[5] = Telefono
     // data[6] = Email
+    // data[7] = Fecha de creacion
+    // data[8] = Fecha de creacion usada como identificador
+    // data[9] = Provincia
+    // data[10] = Municipio
     let data = [];
 
     // Tomo valores del formulario
@@ -22,6 +26,8 @@ function calc(){
     let date = new Date();
     data[7] = moment(date).format(format);
     data[8] = Date.now();
+    data[9] = provInput.prop("value");
+    data[10] = munInput.prop("value");
 
     checkCalc(data);
 }
@@ -163,7 +169,7 @@ function getWeb(){
     let temp = []
     getData.forEach(function (web) {
         web = JSON.parse(web)
-        let data = [web.sect, web.blog, web.ecom, web.mant, web.fullName, web.tel, web.email, web.date, web.select];
+        let data = [web.sect, web.blog, web.ecom, web.mant, web.fullName, web.tel, web.email, web.date, web.select, web.prov, web.mun];
         temp.push(new Web(data));
     })
     let i = 1;
@@ -175,6 +181,8 @@ function getWeb(){
             '<li id="bud-fullName">Nombre: ' + noData(e.fullName) + '</li>' +
             '<li id="bud-email">Email: ' + noData(e.email) + '</li>' +
             '<li id="bud-tel">Tel.: ' + noData(e.tel) + '</li>' +
+            '<li id="bud-prov">Provincia: ' + noData(e.prov) + '</li>' +
+            '<li id="bud-mun">Municipio/Departamento: ' + noData(e.mun) + '</li>' +
             '<li id="bud-sect">Secciones: ' + e.sect + '</li>' +
             '<li id="bud-blog">Blog: ' + siNo(e.blog) + '</li>' +
             '<li id="bud-ecom">Tienda: ' + siNo(e.ecom) + '</li>' +
@@ -203,7 +211,7 @@ function loadBud(){
     console.log('Cargo loadBud()');
     let art = this.parentNode.id;
     let info = JSON.parse(getStorage(art));
-    data = [info.sect, info.blog, info.ecom, info.mant, info.fullName, info.tel, info.email, info.date, info.select];
+    data = [info.sect, info.blog, info.ecom, info.mant, info.fullName, info.tel, info.email, info.date, info.select, info.prov, info.mun];
     console.log(data);
     sectInput.val(data[0]);
     $('#amount').text(sectInput.val());
@@ -213,5 +221,67 @@ function loadBud(){
     nameInput.val(data[4]);
     telInput.val(data[5]);
     emailInput.val(data[6]);
+    provInput.val(data[9]);
+    let select = $('#mun').empty();
+    munInput.val(data[10]);
+    munInput.append('<option selected="selected" value="' + data[10] + '">' + data[10] + '</option>');
     checkCalc(data);
+}
+
+function getProv(){
+    $.ajax({
+        url: "js/provincias.json", // Un archivo json con datos de usuarios: nombre, apellido, etc
+        dataType: "json",
+        success: function(response) {
+            let select = $('#prov');
+            prov = response.provincias;
+            arrayProv = [];
+            for (var j = 0; j  < response.total ; j++) {
+                arrayProv.push(prov[j].nombre)
+            }
+            arrayProv.sort();
+            let i = 0;
+            arrayProv.forEach(a => {
+                if(i==0){
+                    select.append('<option selected="selected" value="' + a + '">' + a + '</option>\n');
+                }else{
+                    select.append('<option value="' + a + '">' + a + '</option>\n');
+                }
+                i++;
+            })
+        }
+    });
+}
+
+function getMun(){
+    $.ajax({
+        url: "js/municipios.json", // Un archivo json con datos de usuarios: nombre, apellido, etc
+        dataType: "json",
+        success: function(response) {
+            let select = $('#mun').empty();
+            let prov = $('#prov').val();
+            mun = response.municipios;
+            arrayMun = [];
+            if( prov == 'Ciudad Autónoma de Buenos Aires'){
+                arrayMun.push('Ciudad Autónoma de Buenos Aires');
+            }else{
+                for (var j = 0; j  < response.total ; j++) {
+                    if(mun[j].provincia.nombre == prov){
+                        arrayMun.push(mun[j].nombre);
+                    }
+                }
+            }
+            arrayMun.sort();
+            let i = 0;
+            arrayMun.forEach(a => {
+                if(i==0){
+                    select.append('<option selected="selected" value="' + a + '">' + a + '</option>\n');
+                }else{
+                    select.append('<option value="' + a + '">' + a + '</option>\n');
+                }
+                i++;
+            })
+            calc();
+        }
+    });
 }

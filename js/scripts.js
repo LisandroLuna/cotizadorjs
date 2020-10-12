@@ -8,8 +8,10 @@ const mantPrice = 2400;
 // Constantes del DOM
 const form = $('#form-simu');
 const nameInput = $('#name');
-const telInput = $('#tel');
 const emailInput = $('#email');
+const telInput = $('#tel');
+const provInput = $('#prov');
+const munInput = $('#mun');
 const sectInput = $('#sections');
 const blogInput = $('#blog');
 const ecomInput = $('#ecom');
@@ -30,6 +32,7 @@ const price = $('#price');
 $( document ).ready(function()
 {
     console.log('Cargo el DOM');
+    getProv()
     calc();
     getWeb();
     nameInput.change(calc);
@@ -39,6 +42,10 @@ $( document ).ready(function()
     blogInput.change(calc);
     ecomInput.change(calc);
     mantInput.change(calc);
+    provInput.ready(getMun);
+    provInput.change(getMun);
+    provInput.change(calc);
+    munInput.change(calc);
     saveButton.click(saveWeb);
     saveButton.click(getWeb);
     form.submit(function( event ) {
@@ -57,6 +64,8 @@ function Web(data) {
     this.email = data[6];
     this.date = data[7];
     this.select = data[8];
+    this.prov = data[9];
+    this.mun = data[10];
     this.price = function (){
         let price = basePrice;
         if(this.calcSect()>0) {
