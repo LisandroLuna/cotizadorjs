@@ -189,11 +189,11 @@ function getWeb(){
             '<li id="bud-mant">Mantenimiento: ' + siNo(e.mant) + '</li>' +
             '<li id="bud-price">Precio Final: $' + e.price() + '</li>' +
             '</ul>' +
-            '<a id="loadBtn-' + e.fullName +'" class="btn btn-info ml-4 w-100">Cargar</a>' +
+            '<a id="loadBtn-' + e.select +'" class="btn btn-info ml-4 w-100">Cargar</a>' +
             '</div>');
         webHis.prepend(article);
         i--;
-        var loadButton = $('#loadBtn-' + e.fullName);
+        var loadButton = $('#loadBtn-' + e.select);
         loadButton.click(loadBud);
     })
 }
