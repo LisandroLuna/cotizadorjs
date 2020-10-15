@@ -27,6 +27,8 @@ const priceMant = $('#pricem');
 const unitSect = $('#unitsect');
 const priceSect = $('#prices');
 const price = $('#price');
+const modalList = $('#dataList');
+const goBtn = $('#goBtn');
 
 // Espero la carga del DOM
 $( document ).ready(function()
@@ -48,9 +50,7 @@ $( document ).ready(function()
     munInput.change(calc);
     saveButton.click(saveWeb);
     saveButton.click(getWeb);
-    form.submit(function( event ) {
-        alert('Se envio informacion!');
-    });
+    goBtn.click(mFill);
 });
 
 // Creo el objeto web

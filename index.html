@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Desarrollo Web</title>
+    <title>MonkeyDev - Desarrollo Web</title>
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -12,10 +12,11 @@
     <!--  Moment.Js para manejo y formateo de fechas  -->
     <script defer src="https://momentjs.com/downloads/moment.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
+    <link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
 </head>
 <body>
 <header>
-    <h1 class="web-title"><a class="header-link" href="index.html">Cotizador <i class="fas fa-code"></i></a></h1>
+    <h1 class="web-title"><a class="header-link" href="index.html">MonkeyDev <i class="fas fa-code"></i></a></h1>
     <p class="text-center">Desarrollo Web</p>
     <nav>
         <a class="btn-nav" href="index.html">Cotizador</a>
@@ -126,12 +127,32 @@
                         </tbody>
                     </table>
                      <a id="saveBtn" class="btn btn-primary">Guardar para después</a>
-                     <button type="submit" class="btn btn-success">Solicitar ahora</button>
+                     <a id="goBtn" class="btn btn-success" data-toggle="modal" data-target="#dataModal">Solicitar ahora</a>
                  </form>
             </div>
             <div class="col-lg-4">
                 <h2>Historial de Cotizaciones</h2>
                 <section id="webHis"></section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="dataModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="dataModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalLabel">Vista Previa</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div  id="dataList" class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success">Descargar a PDF</button>
+                </div>
             </div>
         </div>
     </div>

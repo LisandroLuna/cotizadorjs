@@ -222,12 +222,13 @@ function loadBud(){
     telInput.val(data[5]);
     emailInput.val(data[6]);
     provInput.val(data[9]);
-    let select = $('#mun').empty();
+    munInput.empty();
     munInput.val(data[10]);
     munInput.append('<option selected="selected" value="' + data[10] + '">' + data[10] + '</option>');
     checkCalc(data);
 }
 
+// Obtengo Provincias
 function getProv(){
     $.ajax({
         url: "js/provincias.json", // Un archivo json con datos de usuarios: nombre, apellido, etc
@@ -253,6 +254,7 @@ function getProv(){
     });
 }
 
+// Obtengo Municipios
 function getMun(){
     $.ajax({
         url: "js/municipios.json", // Un archivo json con datos de usuarios: nombre, apellido, etc
@@ -284,4 +286,33 @@ function getMun(){
             calc();
         }
     });
+}
+
+// Relleno el Modal
+function mFill(){
+    console.log('Cargo modalFill()');
+    // Cargo el JSON de sessionStorage
+    let getData = JSON.parse(sessionStorage.getItem('budget'));
+    let data = [getData.sect, getData.blog, getData.ecom, getData.mant, getData.fullName, getData.tel, getData.email, getData.date, getData.select, getData.prov, getData.mun];
+    let web = new Web(data);
+    console.log(web)
+    modalList.empty();
+    modalList.html('<h5>Cotización: ' + getData.date + '</h5>' +
+                    '<p class="lead">Datos de Contacto:</p>' +
+                    '<ul class="ml-4">'+
+                        '<li>Nombre: ' + noData(web.fullName) + '</li>' +
+                        '<li>Email: ' + noData(web.email) + '</li>' +
+                        '<li>Apellido: ' + noData(web.tel) + '</li>' +
+                        '<li>Provincia: ' + noData(web.prov) + '</li>' +
+                        '<li>Localidad: ' + noData(web.mun) + '</li>' +
+                    '</ul>' +
+                    '<p class="lead">Configuración:</p>' +
+                    '<ul class="ml-4">'+
+                        '<li>Secciones: ' + web.sect + '</li>' +
+                        '<li>Blog: ' + siNo(web.blog) + '</li>' +
+                        '<li>Tienda: ' + siNo(web.ecom) + '</li>' +
+                        '<li>Mantenimiento anual: ' + siNo(web.mant) + '</li>' +
+                    '</ul>' +
+                    '<p class="lead">Precio Final: $' + web.price() + '</p>'
+    );
 }
