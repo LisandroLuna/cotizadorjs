@@ -264,13 +264,9 @@ function getMun(){
             let prov = $('#prov').val();
             mun = response.municipios;
             arrayMun = [];
-            if( prov == 'Ciudad Autónoma de Buenos Aires'){
-                arrayMun.push('Ciudad Autónoma de Buenos Aires');
-            }else{
-                for (var j = 0; j  < response.total ; j++) {
-                    if(mun[j].provincia.nombre == prov){
-                        arrayMun.push(mun[j].nombre);
-                    }
+            for (var j = 0; j  < response.total ; j++) {
+                if(mun[j].provincia.nombre == prov){
+                    arrayMun.push(mun[j].nombre);
                 }
             }
             arrayMun.sort();
