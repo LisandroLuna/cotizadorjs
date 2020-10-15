@@ -298,7 +298,7 @@ function mFill(){
                     '<ul class="ml-4">'+
                         '<li>Nombre: ' + noData(web.fullName) + '</li>' +
                         '<li>Email: ' + noData(web.email) + '</li>' +
-                        '<li>Apellido: ' + noData(web.tel) + '</li>' +
+                        '<li>Teléfono: ' + noData(web.tel) + '</li>' +
                         '<li>Provincia: ' + noData(web.prov) + '</li>' +
                         '<li>Localidad: ' + noData(web.mun) + '</li>' +
                     '</ul>' +
