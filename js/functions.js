@@ -172,30 +172,34 @@ function getWeb(){
         let data = [web.sect, web.blog, web.ecom, web.mant, web.fullName, web.tel, web.email, web.date, web.select, web.prov, web.mun];
         temp.push(new Web(data));
     })
-    let i = 1;
-    temp.forEach(e => {
-        let article = $("<article></article>");
-        article.html('<div class="p-2 mb-1" id="' + e.select + '">' +
-            '<p class="font-weight-bold">Cotización: ' + e.date +
-            '</p><ul>' +
-            '<li id="bud-fullName">Nombre: ' + noData(e.fullName) + '</li>' +
-            '<li id="bud-email">Email: ' + noData(e.email) + '</li>' +
-            '<li id="bud-tel">Tel.: ' + noData(e.tel) + '</li>' +
-            '<li id="bud-prov">Provincia: ' + noData(e.prov) + '</li>' +
-            '<li id="bud-mun">Municipio/Departamento: ' + noData(e.mun) + '</li>' +
-            '<li id="bud-sect">Secciones: ' + e.sect + '</li>' +
-            '<li id="bud-blog">Blog: ' + siNo(e.blog) + '</li>' +
-            '<li id="bud-ecom">Tienda: ' + siNo(e.ecom) + '</li>' +
-            '<li id="bud-mant">Mantenimiento: ' + siNo(e.mant) + '</li>' +
-            '<li id="bud-price">Precio Final: $' + e.price() + '</li>' +
-            '</ul>' +
-            '<a id="loadBtn-' + e.select +'" class="btn btn-info ml-4 w-100">Cargar</a>' +
-            '</div>');
-        webHis.prepend(article);
-        i--;
-        var loadButton = $('#loadBtn-' + e.select);
-        loadButton.click(loadBud);
-    })
+    if(temp.length > 0){
+        let i = 1;
+        temp.forEach(e => {
+            let article = $("<article></article>");
+            article.html('<div class="p-2 mb-1" id="' + e.select + '">' +
+                '<p class="font-weight-bold">Cotización: ' + e.date +
+                '</p><ul>' +
+                '<li id="bud-fullName">Nombre: ' + noData(e.fullName) + '</li>' +
+                '<li id="bud-email">Email: ' + noData(e.email) + '</li>' +
+                '<li id="bud-tel">Tel.: ' + noData(e.tel) + '</li>' +
+                '<li id="bud-prov">Provincia: ' + noData(e.prov) + '</li>' +
+                '<li id="bud-mun">Municipio/Departamento: ' + noData(e.mun) + '</li>' +
+                '<li id="bud-sect">Secciones: ' + e.sect + '</li>' +
+                '<li id="bud-blog">Blog: ' + siNo(e.blog) + '</li>' +
+                '<li id="bud-ecom">Tienda: ' + siNo(e.ecom) + '</li>' +
+                '<li id="bud-mant">Mantenimiento: ' + siNo(e.mant) + '</li>' +
+                '<li id="bud-price">Precio Final: $' + e.price() + '</li>' +
+                '</ul>' +
+                '<a id="loadBtn-' + e.select +'" class="btn btn-info ml-4 w-100">Cargar</a>' +
+                '</div>');
+            webHis.prepend(article);
+            i--;
+            var loadButton = $('#loadBtn-' + e.select);
+            loadButton.click(loadBud);
+        })
+    }else{
+        webHis.html('<div class="alert alert-danger" role="alert">No hay cotizaciones guardadas.</div>');
+    }
 }
 
 function noData(data){
