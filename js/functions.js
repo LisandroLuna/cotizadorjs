@@ -6,10 +6,10 @@ function calc(){
     // data[2] = true lleva tienda / false no lleva tienda
     // data[3] = true Si desea mantenimiento / false no desea mantenimiento
     // data[4] = Nombre
-    // data[5] = Telefono
+    // data[5] = Teléfono
     // data[6] = Email
-    // data[7] = Fecha de creacion
-    // data[8] = Fecha de creacion usada como identificador
+    // data[7] = Fecha de creación
+    // data[8] = Fecha de creación usada como identificador
     // data[9] = Provincia
     // data[10] = Municipio
     let data = [];
@@ -26,8 +26,10 @@ function calc(){
     let date = new Date();
     data[7] = moment(date).format(format);
     data[8] = Date.now();
-    data[9] = provInput.prop("value");
-    data[10] = munInput.prop("value");
+    let provInputName = $('#prov option:selected');
+    let munInputName = $('#mun option:selected');
+    data[9] = [provInput.prop("value"), provInputName.text()];
+    data[10] = [munInput.prop("value"), munInputName.text()];
 
     checkCalc(data);
 }
@@ -90,6 +92,14 @@ function checkCalc(data){
     }
 }
 
+//Guardar cotización
+function saveWeb(){
+    console.log('Cargo saveWeb()');
+    // Cargo el JSON de sessionStorage
+    let getData = sessionStorage.getItem('budget');
+    localStorage.setItem('bud-' + JSON.parse(getData).select, getData);
+}
+
 // Obtengo las cotizaciones guardadas en localStorage
 function filterStorage() {
     // Filtro las keys que empiezan con mu clave 'bud-'
@@ -110,7 +120,7 @@ function filterStorage() {
     return values;
 }
 
-// Obtengo una cotizacion guardada en localStorage
+// Obtengo una cotización guardada en localStorage
 function getStorage(select) {
     let value = '';
     let i;
@@ -127,14 +137,6 @@ function getStorage(select) {
         }
     }
     return value;
-}
-
-//Guardar cotizacion
-function saveWeb(){
-    console.log('Cargo saveWeb()');
-    // Cargo el JSON de sessionStorage
-    let getData = sessionStorage.getItem('budget');
-    localStorage.setItem('bud-' + JSON.parse(getData).select, getData);
 }
 
 // Limpiar Historial de Cotizaciones en DOM
@@ -172,34 +174,30 @@ function getWeb(){
         let data = [web.sect, web.blog, web.ecom, web.mant, web.fullName, web.tel, web.email, web.date, web.select, web.prov, web.mun];
         temp.push(new Web(data));
     })
-    if(temp.length > 0){
-        let i = 1;
-        temp.forEach(e => {
-            let article = $("<article></article>");
-            article.html('<div class="p-2 mb-1" id="' + e.select + '">' +
-                '<p class="font-weight-bold">Cotización: ' + e.date +
-                '</p><ul>' +
-                '<li id="bud-fullName">Nombre: ' + noData(e.fullName) + '</li>' +
-                '<li id="bud-email">Email: ' + noData(e.email) + '</li>' +
-                '<li id="bud-tel">Tel.: ' + noData(e.tel) + '</li>' +
-                '<li id="bud-prov">Provincia: ' + noData(e.prov) + '</li>' +
-                '<li id="bud-mun">Municipio/Departamento: ' + noData(e.mun) + '</li>' +
-                '<li id="bud-sect">Secciones: ' + e.sect + '</li>' +
-                '<li id="bud-blog">Blog: ' + siNo(e.blog) + '</li>' +
-                '<li id="bud-ecom">Tienda: ' + siNo(e.ecom) + '</li>' +
-                '<li id="bud-mant">Mantenimiento: ' + siNo(e.mant) + '</li>' +
-                '<li id="bud-price">Precio Final: $' + e.price() + '</li>' +
-                '</ul>' +
-                '<a id="loadBtn-' + e.select +'" class="btn btn-info ml-4 w-100">Cargar</a>' +
-                '</div>');
-            webHis.prepend(article);
-            i--;
-            var loadButton = $('#loadBtn-' + e.select);
-            loadButton.click(loadBud);
-        })
-    }else{
-        webHis.html('<div class="alert alert-danger" role="alert">No hay cotizaciones guardadas.</div>');
-    }
+    let i = 1;
+    temp.forEach(e => {
+        let article = $("<article></article>");
+        article.html('<div class="p-2 mb-1 fade-in" id="' + e.select + '">' +
+            '<p class="font-weight-bold">Cotización: ' + e.date +
+            '</p><ul>' +
+            '<li id="bud-fullName">Nombre: ' + noData(e.fullName) + '</li>' +
+            '<li id="bud-email">Email: ' + noData(e.email) + '</li>' +
+            '<li id="bud-tel">Tel.: ' + noData(e.tel) + '</li>' +
+            '<li id="bud-prov">Provincia: ' + noData(e.prov[1]) + '</li>' +
+            '<li id="bud-mun">Municipio/Departamento: ' + noData(e.mun[1]) + '</li>' +
+            '<li id="bud-sect">Secciones: ' + e.sect + '</li>' +
+            '<li id="bud-blog">Blog: ' + siNo(e.blog) + '</li>' +
+            '<li id="bud-ecom">Tienda: ' + siNo(e.ecom) + '</li>' +
+            '<li id="bud-mant">Mantenimiento: ' + siNo(e.mant) + '</li>' +
+            '<li id="bud-price">Precio Final: $' + e.price() + '</li>' +
+            '</ul>' +
+            '<a id="loadBtn-' + e.select +'" class="btn btn-info ml-4 w-100">Cargar</a>' +
+            '</div>');
+        webHis.prepend(article);
+        i--;
+        var loadButton = $('#loadBtn-' + e.select);
+        loadButton.click(loadBud);
+    })
 }
 
 function noData(data){
@@ -225,32 +223,31 @@ function loadBud(){
     nameInput.val(data[4]);
     telInput.val(data[5]);
     emailInput.val(data[6]);
-    provInput.val(data[9]);
-    munInput.empty();
-    munInput.val(data[10]);
-    munInput.append('<option selected="selected" value="' + data[10] + '">' + data[10] + '</option>');
+    provInput.val(data[9][0]);
+    getMun();
+    munInput.val(data[10][0]);
     checkCalc(data);
 }
 
 // Obtengo Provincias
 function getProv(){
     $.ajax({
-        url: "js/provincias.json", // Un archivo json con datos de usuarios: nombre, apellido, etc
+        url: "js/data/ciudades.json",
         dataType: "json",
         success: function(response) {
             let select = $('#prov');
-            prov = response.provincias;
+            prov = response;
             arrayProv = [];
-            for (var j = 0; j  < response.total ; j++) {
-                arrayProv.push(prov[j].nombre)
+            for (var j = 0; j  < response.length ; j++) {
+                arrayProv.push([prov[j].id, prov[j].nombre])
             }
-            arrayProv.sort();
+            arrayProv.sort((a,b) => a[1].toUpperCase().localeCompare(b[1].toUpperCase()));
             let i = 0;
             arrayProv.forEach(a => {
                 if(i==0){
-                    select.append('<option selected="selected" value="' + a + '">' + a + '</option>\n');
+                    select.append('<option selected="selected" value="' + a[0] + '">' + a[1] + '</option>\n');
                 }else{
-                    select.append('<option value="' + a + '">' + a + '</option>\n');
+                    select.append('<option value="' + a[0] + '">' + a[1] + '</option>\n');
                 }
                 i++;
             })
@@ -261,25 +258,24 @@ function getProv(){
 // Obtengo Municipios
 function getMun(){
     $.ajax({
-        url: "js/municipios.json", // Un archivo json con datos de usuarios: nombre, apellido, etc
+        url: "js/data/ciudades.json",
         dataType: "json",
         success: function(response) {
             let select = $('#mun').empty();
             let prov = $('#prov').val();
-            mun = response.municipios;
-            arrayMun = [];
-            for (var j = 0; j  < response.total ; j++) {
-                if(mun[j].provincia.nombre == prov){
-                    arrayMun.push(mun[j].nombre);
+            let arrayMun = [];
+            let list = response.forEach(a => {
+                if(a.id == prov){
+                    arrayMun.push(a.ciudades);
                 }
-            }
-            arrayMun.sort();
+            });
+            arrayMun.sort((a,b) => a[1].toUpperCase().localeCompare(b[1].toUpperCase()));
             let i = 0;
-            arrayMun.forEach(a => {
+            arrayMun[0].forEach(a => {
                 if(i==0){
-                    select.append('<option selected="selected" value="' + a + '">' + a + '</option>\n');
+                    select.append('<option selected="selected" value="' + a.id + '">' + a.nombre + '</option>\n');
                 }else{
-                    select.append('<option value="' + a + '">' + a + '</option>\n');
+                    select.append('<option value="' + a.id + '">' + a.nombre + '</option>\n');
                 }
                 i++;
             })
