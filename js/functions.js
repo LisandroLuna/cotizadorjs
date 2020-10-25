@@ -1,3 +1,33 @@
+//funcion de paso 1
+function stepOne(){
+    divOne.fadeOut();
+    divTwo.fadeIn(1000);
+    divTwoHalf.fadeIn(1000);
+    webHis.fadeIn(1000);
+    divThree.hide();
+}
+
+// Regreso a paso 1
+function stepBckOne(){
+    divTwo.fadeOut();
+    divTwoHalf.fadeOut();
+    webHis.fadeOut();
+    divThree.fadeOut();
+    divOne.fadeIn(1000);
+}
+
+// Avanzo a paso 2
+function stepTwo(){
+    divTwoHalf.fadeOut();
+    divThree.fadeIn(1000);
+}
+
+// Regreso a paso 2
+function stepBckTwo(){
+    divTwoHalf.fadeIn(1000);
+    divThree.fadeOut();
+}
+
 // Función para calcular precio final
 function calc(){
     console.log('Cargo calc()');
@@ -176,8 +206,8 @@ function getWeb(){
     })
     let i = 1;
     temp.forEach(e => {
-        let article = $("<article></article>");
-        article.html('<div class="p-2 mb-1 fade-in" id="' + e.select + '">' +
+        let article = $("<article class='col-lg-4'></article>");
+        article.html('<div class="p-2 mb-1" id="' + e.select + '">' +
             '<p class="font-weight-bold">Cotización: ' + e.date +
             '</p><ul>' +
             '<li id="bud-fullName">Nombre: ' + noData(e.fullName) + '</li>' +
@@ -198,6 +228,7 @@ function getWeb(){
         var loadButton = $('#loadBtn-' + e.select);
         loadButton.click(loadBud);
     })
+    webHis.prepend("<div class='col-md-12'><h4>Cotizaciones guardadas:</h4></div>");
 }
 
 function noData(data){

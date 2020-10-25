@@ -8,6 +8,10 @@ const mantPrice = 2400;
 // Constantes del DOM
 const form = $('#form-simu');
 const spinner = $('#spinner');
+const divOne = $('#one');
+const divTwo = $('#two');
+const divTwoHalf = $('#twohalf');
+const divThree = $('#three');
 const nameInput = $('#name');
 const emailInput = $('#email');
 const telInput = $('#tel');
@@ -17,7 +21,6 @@ const sectInput = $('#sections');
 const blogInput = $('#blog');
 const ecomInput = $('#ecom');
 const mantInput = $('#mant');
-const saveButton = $('#saveBtn');
 const webHis = $('#webHis');
 const choiceBlog = $('#choiceb');
 const priceBlog = $('#priceb');
@@ -29,13 +32,21 @@ const unitSect = $('#unitsect');
 const priceSect = $('#prices');
 const price = $('#price');
 const modalList = $('#dataList');
+const saveBtn = $('#saveBtn');
 const goBtn = $('#goBtn');
+const strBtn = $('#strbtn');
+const twobtn = $('#twobtn');
+const twobckbtn = $('#twobckbtn');
+const tbckbtn = $('#tbckbtn');
 
 // Espero la carga del DOM
 $( document ).ready(function()
 {
     console.log('Cargo el DOM');
-    getProv()
+    divTwo.hide();
+    divTwoHalf.hide();
+    webHis.hide();
+    getProv();
     calc();
     getWeb();
     nameInput.change(calc);
@@ -49,9 +60,13 @@ $( document ).ready(function()
     provInput.change(getMun);
     provInput.change(calc);
     munInput.change(calc);
-    saveButton.click(saveWeb);
-    saveButton.click(getWeb);
+    saveBtn.click(saveWeb);
+    saveBtn.click(getWeb);
     goBtn.click(mFill);
+    strBtn.click(stepOne);
+    twobckbtn.click(stepBckOne);
+    twobtn.click(stepTwo);
+    tbckbtn.click(stepBckTwo);
 });
 
 // Creo el objeto web
