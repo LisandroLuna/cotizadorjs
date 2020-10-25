@@ -211,6 +211,8 @@ function noData(data){
 // Cargar cotizaciones guardadas
 function loadBud(){
     console.log('Cargo loadBud()');
+    form.fadeOut(100);
+    spinner.show();
     let art = this.parentNode.id;
     let info = JSON.parse(getStorage(art));
     data = [info.sect, info.blog, info.ecom, info.mant, info.fullName, info.tel, info.email, info.date, info.select, info.prov, info.mun];
@@ -227,6 +229,8 @@ function loadBud(){
     getMun();
     munInput.val(data[10][0]);
     checkCalc(data);
+    spinner.hide();
+    form.fadeIn(200);
 }
 
 // Obtengo Provincias

@@ -7,6 +7,7 @@ const mantPrice = 2400;
 
 // Constantes del DOM
 const form = $('#form-simu');
+const spinner = $('#spinner');
 const nameInput = $('#name');
 const emailInput = $('#email');
 const telInput = $('#tel');
