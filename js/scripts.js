@@ -38,6 +38,8 @@ const strBtn = $('#strbtn');
 const twobtn = $('#twobtn');
 const twobckbtn = $('#twobckbtn');
 const tbckbtn = $('#tbckbtn');
+const modal = $('#dataModal');
+const goPdf = $('#goPdf');
 
 // Espero la carga del DOM
 $( document ).ready(function()
@@ -67,6 +69,7 @@ $( document ).ready(function()
     twobckbtn.click(stepBckOne);
     twobtn.click(stepTwo);
     tbckbtn.click(stepBckTwo);
+    goPdf.click(savePdf);
 });
 
 // Creo el objeto web
@@ -102,3 +105,12 @@ function Web(data) {
         return sectPrice*this.sect;
     }
 }
+
+$(form).validator().on('submit', function (e) {
+    if (e.isDefaultPrevented()) {
+        stepBckTwo()
+    } else {
+        modal.modal('show');
+        return false;
+    }
+})

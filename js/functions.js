@@ -334,8 +334,8 @@ function mFill(){
                         '<li>Nombre: ' + noData(web.fullName) + '</li>' +
                         '<li>Email: ' + noData(web.email) + '</li>' +
                         '<li>Teléfono: ' + noData(web.tel) + '</li>' +
-                        '<li>Provincia: ' + noData(web.prov) + '</li>' +
-                        '<li>Localidad: ' + noData(web.mun) + '</li>' +
+                        '<li>Provincia: ' + noData(web.prov[1]) + '</li>' +
+                        '<li>Localidad: ' + noData(web.mun[1]) + '</li>' +
                     '</ul>' +
                     '<p class="lead">Configuración:</p>' +
                     '<ul class="ml-4">'+
@@ -346,4 +346,19 @@ function mFill(){
                     '</ul>' +
                     '<p class="lead">Precio Final: $' + web.price() + '</p>'
     );
+}
+
+function savePdf(){
+    var w = modalList[0].offsetWidth;
+    var h = modalList[0].offsetHeight;
+    html2canvas(modalList[0], {
+        dpi: 300, // Set to 300 DPI
+        scale: 3, // Adjusts your resolution
+        onrendered: function(canvas) {
+            var img = canvas.toDataURL("image/jpeg", 1);
+            var doc = new jsPDF('L', 'px', [w, h]);
+            doc.addImage(img, 'JPEG', 0, 0, w, h);
+            doc.save('presupuesto.pdf');
+        }
+    });
 }
