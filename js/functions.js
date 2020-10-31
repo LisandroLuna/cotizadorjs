@@ -328,7 +328,7 @@ function mFill(){
     let web = new Web(data);
     console.log(web)
     modalList.empty();
-    modalList.html('<h5>Cotización: ' + getData.date + '</h5>' +
+    modalList.html('<h4>Cotización: ' + getData.date + '</h4>' +
                     '<p class="lead">Datos de Contacto:</p>' +
                     '<ul class="ml-4">'+
                         '<li>Nombre: ' + noData(web.fullName) + '</li>' +
@@ -344,21 +344,35 @@ function mFill(){
                         '<li>Tienda: ' + siNo(web.ecom) + '</li>' +
                         '<li>Mantenimiento anual: ' + siNo(web.mant) + '</li>' +
                     '</ul>' +
-                    '<p class="lead">Precio Final: $' + web.price() + '</p>'
+                    '<p class="lead">Precio Final: $' + web.price() + '</p>' +
+                    '<p>Cualquier duda o consulta contactarse a contacto@miempresa.com</p>' +
+                    '<p><b>Cotizacion valida por 15 dias.</b></p>'
     );
 }
 
 function savePdf(){
-    var w = modalList[0].offsetWidth;
-    var h = modalList[0].offsetHeight;
-    html2canvas(modalList[0], {
-        dpi: 300, // Set to 300 DPI
-        scale: 3, // Adjusts your resolution
-        onrendered: function(canvas) {
-            var img = canvas.toDataURL("image/jpeg", 1);
-            var doc = new jsPDF('L', 'px', [w, h]);
-            doc.addImage(img, 'JPEG', 0, 0, w, h);
-            doc.save('presupuesto.pdf');
+    let pdf = new jsPDF('p', 'pt', 'letter');
+    source = modalList[0];
+    specialElementHandlers = {
+        '#bypassme': function (element, renderer) {
+            return true
         }
-    });
+    };
+    margins = {
+        top: 80,
+        bottom: 60,
+        left: 40,
+        width: 522
+    };
+    pdf.fromHTML(
+        source,
+        margins.left,
+        margins.top, {
+            'width': margins.width,
+            'elementHandlers': specialElementHandlers
+        },
+        function (dispose) {
+            pdf.save('Cotizacion-Sitio-Web.pdf');
+        }, margins
+    );
 }
