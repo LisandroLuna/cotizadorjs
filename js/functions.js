@@ -351,7 +351,7 @@ function mFill(){
 }
 
 function savePdf(){
-    let pdf = new jsPDF('p', 'pt', 'letter');
+    let pdf = new jsPDF('p', 'pt', 'A6');
     source = modalList[0];
     specialElementHandlers = {
         '#bypassme': function (element, renderer) {
@@ -361,8 +361,8 @@ function savePdf(){
     margins = {
         top: 80,
         bottom: 60,
-        left: 40,
-        width: 522
+        left: 80,
+        width: 600
     };
     pdf.fromHTML(
         source,
