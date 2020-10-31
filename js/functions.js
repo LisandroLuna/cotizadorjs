@@ -262,6 +262,7 @@ function loadBud(){
     checkCalc(data);
     spinner.hide();
     form.fadeIn(200);
+    stepBckTwo()
 }
 
 // Obtengo Provincias
