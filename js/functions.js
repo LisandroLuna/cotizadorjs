@@ -230,8 +230,6 @@ function getWeb(){
             loadButton.click(loadBud);
         })
         webHis.prepend("<div class='col-md-12'><h4>Cotizaciones guardadas:</h4></div>");
-    }else{
-        webHis.html('<div class="alert alert-danger" role="alert">No hay cotizaciones guardadas.</div>');
     }
 }
 
