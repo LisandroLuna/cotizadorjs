@@ -1,8 +1,12 @@
-# Proyecto final - Cotizador de Sitio Web
+# Cotizador desarrrollo de Sitio Web
 
-Formulario de cotizador online con calculador de costo automático.
+Formulario de cotizador online con calculador de costo automático, desarrollado con:
+  
+  - HTML5
+  - JavaScript
+  - BootStrap
+  - Jquery
+  - Moment.js
+  
+[Demo](https://lisandroluna.github.io/cotizadorjs/)
 
-Se agrego la opción de guardar cotización, muestra las ultimas 3.
-Funciones adicionales de guardar cotización y cargarlas luego.
-
-URL: https://lisandroluna.github.io/cotizadorjs/
