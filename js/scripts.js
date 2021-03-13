@@ -66,6 +66,7 @@ $( document ).ready(function()
     saveBtn.click(getWeb);
     goBtn.click(mFill);
     strBtn.click(stepOne);
+    strBtn.click(getMun);
     twobckbtn.click(stepBckOne);
     twobtn.click(stepTwo);
     tbckbtn.click(stepBckTwo);
